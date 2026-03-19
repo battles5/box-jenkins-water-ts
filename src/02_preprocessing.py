@@ -22,7 +22,7 @@ from utils import PROJECT_DIR, DATA_RAW, DATA_PROCESSED
 # 1. Load raw data
 # ---------------------------------------------------------------------------
 print("Loading raw data...")
-raw_path = os.path.join(DATA_RAW, "Final-Orso.xlsx")
+raw_path = os.path.join(DATA_RAW, "water_meters.xlsx")
 df = pd.read_excel(raw_path, engine="openpyxl")
 print(f"  Raw shape: {df.shape}")
 print(f"  Date range: {df['Sampling Date'].min()} to {df['Sampling Date'].max()}")

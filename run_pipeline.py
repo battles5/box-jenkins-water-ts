@@ -8,7 +8,7 @@ Usage:
     python run_pipeline.py --fleet           # fleet analysis only
 
 Prerequisites:
-    - data/raw/Final-Orso.xlsx       (Terranova smart water meter data)
+    - data/raw/water_meters.xlsx      (Hourly smart water meter readings)
     - data/raw/usgs_water_quality.csv (USGS specific conductance, site 07311782)
     - pip install -r requirements.txt
 """

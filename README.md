@@ -4,7 +4,7 @@ Application of the **Box–Jenkins SARIMA/ARIMA methodology** to two water-domai
 datasets — one seasonal, one non-seasonal — following the iterative framework of
 identification, estimation, diagnostic checking, and forecasting.
 
-> Course project for *Time Series Analysis* (Prof. A. Magrini),
+> Exam project for the *Time Series Analysis* course,
 > Master in Statistical Learning and Data Science,
 > Università degli Studi di Firenze — A.Y. 2024–2025.
 
@@ -33,15 +33,16 @@ Box et al. (2015):
 
 | Dataset | Type | Observations | Period | Seasonality | Source |
 |---------|------|-------------|--------|-------------|--------|
-| Terranova smart water meters | Water consumption (m³/day) | 54–101 days × 90 meters | Jan–Apr 2025 | Weekly (*m* = 7) | Terranova network |
+| Smart water meters | Water consumption (m³/day) | 54–101 days × 90 meters | Jan–Apr 2025 | Weekly (*m* = 7) | Private (NDA) |
 | S Wichita Rv specific conductance | Water quality (µS/cm) | 3 612 daily values | 2015–2024 | None (*Fs* = 0.11) | [USGS site 07311782](https://waterdata.usgs.gov/nwis) |
 
-**Data files are not included in this repository.**
-Place them in `data/raw/` before running the pipeline:
+**Data files are not included in this repository** (the smart meter dataset is
+under NDA and cannot be redistributed).  
+Place the required files in `data/raw/` before running the pipeline:
 
 ```
 data/raw/
-├── Final-Orso.xlsx              # Terranova hourly register readings
+├── water_meters.xlsx            # Hourly smart meter register readings
 └── usgs_water_quality.csv       # USGS daily specific conductance
 ```
 
@@ -55,15 +56,13 @@ data/raw/
 │   ├── 01_eda.ipynb             # Exploratory data analysis (notebook)
 │   ├── 02_preprocessing.py      # Data cleaning, selection, daily aggregation
 │   ├── 03_stationarity.py       # ADF/KPSS tests, differencing, ACF/PACF
-│   ├── 03_box_jenkins_analysis.ipynb  # Interactive ACF/PACF exploration
 │   ├── 04_sarima_fitting.py     # SARIMA identification and estimation
 │   ├── 05_diagnostics.py        # Residual diagnostics, Ljung-Box tests
 │   ├── 06_forecasting.py        # Rolling-window CV, forecast metrics
 │   ├── 07_anomaly_detection.py  # SARIMA-based anomaly flagging
 │   ├── 08_arima_nonseasonal.py  # Non-seasonal ARIMA (USGS water quality)
 │   ├── 09_fleet_preprocessing.py # Preprocessing for all 90 eligible meters
-│   ├── 10_fleet_sarima.py       # Automated fleet-wide SARIMA pipeline
-│   └── 11_fleet_analysis.ipynb  # Fleet results summary (notebook)
+│   └── 10_fleet_sarima.py       # Automated fleet-wide SARIMA pipeline
 ├── data/
 │   ├── raw/                     # Input data (not tracked)
 │   └── processed/               # Intermediate outputs (not tracked)
@@ -76,8 +75,8 @@ data/raw/
 
 ```bash
 # 1. Clone and set up environment
-git clone https://github.com/battles5/time-series-analysis.git
-cd time-series-analysis
+git clone https://github.com/battles5/box-jenkins-water-ts.git
+cd box-jenkins-water-ts
 python -m venv .venv
 .venv/Scripts/activate        # Windows
 pip install -r requirements.txt

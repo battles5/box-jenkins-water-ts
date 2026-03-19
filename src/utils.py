@@ -61,7 +61,7 @@ def save_table(df, name):
 # Data loading
 # ---------------------------------------------------------------------------
 def load_raw_data():
-    path = os.path.join(DATA_RAW, "Final-Orso.xlsx")
+    path = os.path.join(DATA_RAW, "water_meters.xlsx")
     df = pd.read_excel(path, engine="openpyxl")
     return df
 
