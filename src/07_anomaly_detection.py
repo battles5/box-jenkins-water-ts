@@ -194,7 +194,7 @@ for mid, model_data in fitted_models.items():
         axes[0].axvspan(dates[start], dates[end], alpha=0.15, color="orange", zorder=0)
     if n_persistent > 0:
         axes[0].axvspan(dates[0], dates[0], alpha=0.15, color="orange", label="Persistent run")
-    axes[0].set_title(f"Meter {mid} — Anomaly Detection")
+    axes[0].set_title(f"Meter {mid} - Anomaly Detection")
     axes[0].set_ylabel("m³/day")
     axes[0].legend(loc="upper right", fontsize=9)
 

@@ -55,7 +55,7 @@ for mid, model_data in fitted_models.items():
     # --- 1. Diagnostic plots (6-panel, as in course R scripts) ---
     fig = plot_diagnostics(
         residuals, fitted,
-        title=f"Meter {mid} — SARIMA{order}x{seasonal} (transform={transform})",
+        title=f"Meter {mid} - SARIMA{order}x{seasonal} (transform={transform})",
         save_name=None,
     )
     save_fig(fig, f"meter_{mid}_diagnostics", subdir="diagnostics")

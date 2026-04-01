@@ -62,13 +62,13 @@ for mid in meter_ids:
     # ----- 1. Original series -----
     fig, axes = plt.subplots(2, 1, figsize=(14, 7))
     axes[0].plot(y.index, y.values, linewidth=0.8)
-    axes[0].set_title(f"Meter {mid} — Daily consumption (m³/day)")
+    axes[0].set_title(f"Meter {mid} - Daily consumption (m³/day)")
     axes[0].set_ylabel("m³/day")
     axes[0].axhline(y.mean(), color="red", linestyle="--", alpha=0.5, label=f"mean={y.mean():.4f}")
     axes[0].legend()
 
     from statsmodels.graphics.tsaplots import plot_acf as _plot_acf
-    _plot_acf(y.dropna(), lags=min(40, len(y) // 2 - 1), ax=axes[1], title=f"ACF — Meter {mid} (original)")
+    _plot_acf(y.dropna(), lags=min(40, len(y) // 2 - 1), ax=axes[1], title=f"ACF - Meter {mid} (original)")
     fig.tight_layout()
     save_fig(fig, f"meter_{mid}_original", subdir="stationarity")
 
@@ -80,7 +80,7 @@ for mid in meter_ids:
     res_d1 = stationarity_tests(dy, name=f"Meter {mid} (d=1)")
 
     fig = plot_acf_pacf(dy, lags=min(35, len(dy) // 2 - 1),
-                        title=f"Meter {mid} — diff(y)",
+                        title=f"Meter {mid} - diff(y)",
                         save_name=None)
     save_fig(fig, f"meter_{mid}_diff1_acf_pacf", subdir="stationarity")
 
@@ -92,7 +92,7 @@ for mid in meter_ids:
             res_D1 = stationarity_tests(dy7, name=f"Meter {mid} (D=1, m=7)")
 
             fig = plot_acf_pacf(dy7, lags=min(28, len(dy7) // 2 - 1),
-                                title=f"Meter {mid} — seasonal diff(y, 7)",
+                                title=f"Meter {mid} - seasonal diff(y, 7)",
                                 save_name=None)
             save_fig(fig, f"meter_{mid}_sdiff7_acf_pacf", subdir="stationarity")
 
@@ -104,7 +104,7 @@ for mid in meter_ids:
             res_dD = stationarity_tests(ddy7, name=f"Meter {mid} (d=1, D=1)")
 
             fig = plot_acf_pacf(ddy7, lags=min(28, len(ddy7) // 2 - 1),
-                                title=f"Meter {mid} — diff(diff(y, 7))",
+                                title=f"Meter {mid} - diff(diff(y, 7))",
                                 save_name=None)
             save_fig(fig, f"meter_{mid}_diff1_sdiff7_acf_pacf", subdir="stationarity")
 

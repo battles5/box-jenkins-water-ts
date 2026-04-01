@@ -1,12 +1,12 @@
 # Box–Jenkins Time Series Analysis of Water-Domain Data
 
 Application of the **Box–Jenkins SARIMA/ARIMA methodology** to two water-domain
-datasets — one seasonal, one non-seasonal — following the iterative framework of
+datasets (one seasonal, one non-seasonal) following the iterative framework of
 identification, estimation, diagnostic checking, and forecasting.
 
 > Exam project for the *Time Series Analysis* course,
 > Master in Statistical Learning and Data Science,
-> Università degli Studi di Firenze — A.Y. 2024–2025.
+> Università degli Studi di Firenze, A.Y. 2024-2025.
 
 ---
 
@@ -15,18 +15,18 @@ identification, estimation, diagnostic checking, and forecasting.
 The analysis follows the classical Box–Jenkins procedure as presented in
 Box et al. (2015):
 
-1. **Stationarity assessment** — visual inspection, ADF and KPSS dual-test
-   strategy, differencing, heteroscedasticity check (rolling mean–variance
-   correlation), variance-stabilising transformations (log / Box–Cox) when
+1. **Stationarity assessment**: visual inspection, ADF and KPSS dual-test
+   strategy, differencing, heteroscedasticity check (rolling mean-variance
+   correlation), variance-stabilising transformations (log / Box-Cox) when
    needed.
-2. **Model identification** — ACF/PACF analysis combined with exhaustive
+2. **Model identification**: ACF/PACF analysis combined with exhaustive
    `auto_arima` search (AICc selection) and manual candidate comparison.
-3. **Diagnostic checking** — six-panel residual display (residuals over time,
+3. **Diagnostic checking**: six-panel residual display (residuals over time,
    ACF of residuals, ACF of squared residuals, fitted vs. residuals,
-   fitted vs. squared residuals, Q–Q plot), Ljung–Box test on residuals
-   and squared residuals, Shapiro–Wilk normality test.
-4. **Forecasting** — rolling-window cross-validation (equivalent to R's
-   `tsCV`), RMSE, MAE, and Scaled RMSE against a naïve / seasonal-naïve
+   fitted vs. squared residuals, Q-Q plot), Ljung-Box test on residuals
+   and squared residuals, Shapiro-Wilk normality test.
+4. **Forecasting**: rolling-window cross-validation (equivalent to R's
+   `tsCV`), RMSE, MAE, and Scaled RMSE against a naive / seasonal-naive
    benchmark.
 
 ## Datasets
@@ -37,13 +37,13 @@ Box et al. (2015):
 | S Wichita Rv specific conductance | Water quality (µS/cm) | 3 612 daily values | 2015–2024 | None (*Fs* = 0.11) | [USGS site 07311782](https://waterdata.usgs.gov/nwis) |
 
 **Data files are not included in this repository** (the smart meter dataset is
-under NDA and cannot be redistributed).  
-Place the required files in `data/raw/` before running the pipeline:
+under NDA and cannot be redistributed; the USGS dataset is downloaded
+automatically by the pipeline if not already present).
+To run the seasonal analysis, create `data/raw/` and place the meter file:
 
 ```
 data/raw/
-├── water_meters.xlsx            # Hourly smart meter register readings
-└── usgs_water_quality.csv       # USGS daily specific conductance
+└── water_meters.xlsx            # Hourly smart meter register readings
 ```
 
 ## Project structure
@@ -63,9 +63,6 @@ data/raw/
 │   ├── 08_arima_nonseasonal.py  # Non-seasonal ARIMA (USGS water quality)
 │   ├── 09_fleet_preprocessing.py # Preprocessing for all 90 eligible meters
 │   └── 10_fleet_sarima.py       # Automated fleet-wide SARIMA pipeline
-├── data/
-│   ├── raw/                     # Input data (not tracked)
-│   └── processed/               # Intermediate outputs (not tracked)
 └── output/
     ├── figures/                  # Generated plots (not tracked)
     └── tables/                  # Generated CSV/LaTeX tables (not tracked)
@@ -104,9 +101,9 @@ Three meters are analysed in detail to illustrate different scenarios:
 
 | Meter | Days | Difficulty | Best model | Scaled RMSE (*h* = 1) |
 |-------|------|-----------|-----------|----------------------|
-| 503   | 101  | Moderate — rich seasonal structure | SARIMA(0,1,1)(0,1,1)₇ | 0.81 |
-| 575   | 54   | Hard — extreme variance, Box-Cox needed | SARIMA(1,1,1)(0,1,1)₇ | 1.01 |
-| 345   | 101  | Easy — regular weekly pattern | SARIMA(0,0,0)(1,0,0)₇ | 0.67 |
+| 503   | 101  | Moderate, rich seasonal structure | SARIMA(0,1,1)(0,1,1)₇ | 0.81 |
+| 575   | 54   | Hard, extreme variance, Box-Cox needed | SARIMA(1,1,1)(0,1,1)₇ | 1.01 |
+| 345   | 101  | Easy, regular weekly pattern | SARIMA(0,0,0)(1,0,0)₇ | 0.67 |
 
 The methodology is then automated across **90 eligible meters**:
 100% fit success, 95.6% diagnostic pass rate, median Scaled RMSE of 0.77.

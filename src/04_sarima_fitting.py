@@ -210,7 +210,7 @@ for mid in meter_ids:
     else:
         fitted_display = fitted_vals
     axes[0].plot(y.index, fitted_display, label="Fitted", linewidth=0.8, alpha=0.8)
-    axes[0].set_title(f"Meter {mid} — SARIMA{final_order}x{final_seasonal} (transform={transform})")
+    axes[0].set_title(f"Meter {mid} - SARIMA{final_order}x{final_seasonal} (transform={transform})")
     axes[0].set_ylabel("m³/day")
     axes[0].legend()
 

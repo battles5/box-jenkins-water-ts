@@ -151,7 +151,7 @@ for mid, model_data in fitted_models.items():
 
     axes[0].plot(future_dates, pred_display, "r-", label="Forecast", linewidth=1.5)
     axes[0].fill_between(future_dates, ci_lo, ci_hi, alpha=0.2, color="red", label="95% CI")
-    axes[0].set_title(f"Meter {mid} — SARIMA{order}x{seasonal} — 7-day forecast")
+    axes[0].set_title(f"Meter {mid} - SARIMA{order}x{seasonal} - 7-day forecast")
     axes[0].set_ylabel("m³/day")
     axes[0].legend()
 

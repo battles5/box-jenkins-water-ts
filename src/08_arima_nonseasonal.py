@@ -45,6 +45,13 @@ set_plot_style()
 SUBDIR = "nonseasonal"
 HORIZON = 7
 
+# USGS Water Services URL for automatic data retrieval
+USGS_URL = (
+    "https://waterservices.usgs.gov/nwis/dv/"
+    "?sites=07311782&parameterCd=00095"
+    "&startDT=2015-01-01&endDT=2024-11-20&format=rdb"
+)
+
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. Load and preprocess
 # ══════════════════════════════════════════════════════════════════════════════
@@ -52,7 +59,29 @@ print("=" * 60)
 print("LOADING DATA")
 print("=" * 60)
 
-df = pd.read_csv(os.path.join(DATA_RAW, "usgs_water_quality.csv"), parse_dates=["date"])
+csv_path = os.path.join(DATA_RAW, "usgs_water_quality.csv")
+if not os.path.exists(csv_path):
+    print(f"Local file not found, downloading from USGS Water Services...")
+    import urllib.request, io
+    os.makedirs(DATA_RAW, exist_ok=True)
+    response = urllib.request.urlopen(USGS_URL)
+    lines = response.read().decode("utf-8").splitlines()
+    # skip comment (#) and format lines; keep header + data
+    data_lines = [l for l in lines if not l.startswith("#")]
+    # first non-comment line is header, second is dtype descriptor
+    header = data_lines[0].split("\t")
+    rows = [l.split("\t") for l in data_lines[2:]]
+    raw_df = pd.DataFrame(rows, columns=header)
+    out = pd.DataFrame({
+        "date": pd.to_datetime(raw_df["datetime"]),
+        "specific_conductance_us_cm": pd.to_numeric(
+            raw_df.iloc[:, 4], errors="coerce"  # 5th column = value
+        ),
+    }).dropna()
+    out.to_csv(csv_path, index=False)
+    print(f"Saved {len(out)} rows to {csv_path}")
+
+df = pd.read_csv(csv_path, parse_dates=["date"])
 df = df.set_index("date").sort_index()
 y_raw = df["specific_conductance_us_cm"].astype(float)
 
@@ -234,7 +263,7 @@ residuals = pd.Series(y.values - fitted_vals, index=y.index)
 # --- 6-panel diagnostic plot ---
 fig = plot_diagnostics(
     residuals, pd.Series(fitted_vals, index=y.index),
-    title=f"S Wichita Rv — ARIMA{best_order}",
+    title=f"S Wichita Rv - ARIMA{best_order}",
 )
 save_fig(fig, "wq_diagnostics", subdir=SUBDIR)
 print("  Saved: wq_diagnostics.pdf")
@@ -358,7 +387,7 @@ axes[0].plot(y.index[-180:], y.values[-180:], label="Observed", linewidth=0.8)
 axes[0].plot(future_dates, pred_mean, "r-", label="Forecast", linewidth=1.5)
 axes[0].fill_between(future_dates, pred_ci[:, 0], pred_ci[:, 1],
                       alpha=0.2, color="red", label="95% CI")
-axes[0].set_title(f"S Wichita Rv — ARIMA{best_order} — 7-day forecast")
+axes[0].set_title(f"S Wichita Rv - ARIMA{best_order} - 7-day forecast")
 axes[0].set_ylabel("µS/cm")
 axes[0].legend()
 

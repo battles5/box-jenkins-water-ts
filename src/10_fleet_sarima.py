@@ -177,7 +177,7 @@ def map_kimiya_type(point_high, point_low, persistent, level_shift):
         types.append("Type3_MultiDay")
     if level_shift:
         types.append("Type5_BaselineLeak")
-    # Types 2, 4, 6, 7 require hourly data — cannot detect with daily SARIMA
+    # Types 2, 4, 6, 7 require hourly data - cannot detect with daily SARIMA
     return types if types else ["none"]
 
 
@@ -465,7 +465,7 @@ if __name__ == "__main__":
     n_diag_pass = results_df["diag_pass"].sum()
 
     print(f"\n{'=' * 70}")
-    print(f"  FLEET PIPELINE COMPLETE — {elapsed_total:.0f}s total")
+    print(f"  FLEET PIPELINE COMPLETE - {elapsed_total:.0f}s total")
     print(f"{'=' * 70}")
     print(f"  Meters processed:     {n_total}")
     print(f"  Fit success:          {n_success}/{n_total} ({n_success/n_total*100:.1f}%)")
@@ -492,7 +492,7 @@ if __name__ == "__main__":
                           ("Type4_TemporalAHC", "requires hourly"),
                           ("Type6_ACNZ", "requires hourly"),
                           ("Type7_ACS", "requires hourly")]:
-            print(f"  {kt:<25s} {'—':>10s}   ✗ {note}")
+            print(f"  {kt:<25s} {'-':>10s}   ✗ {note}")
 
     print(f"\n  Outputs saved to: {DATA_PROCESSED}/")
     print("  Done.")

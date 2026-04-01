@@ -89,7 +89,7 @@ print(f"  Meters with > 1000 records: {(meter_stats['n_records'] > 1000).sum()}"
 # Selection criteria:
 #   - High coverage (> 80%)
 #   - Enough records (> 1000)
-#   - Not too many zeros (< 80%) — some consumption activity needed
+#   - Not too many zeros (< 80%) - some consumption activity needed
 #   - Domestic usage
 SELECTION_CRITERIA = {
     "min_records": 1000,

@@ -111,8 +111,8 @@ def stationarity_tests(series, name="series", verbose=True):
 # ---------------------------------------------------------------------------
 def plot_acf_pacf(series, lags=48, title="", save_name=None):
     fig, axes = plt.subplots(1, 2, figsize=(14, 4))
-    plot_acf(series.dropna(), lags=lags, ax=axes[0], title=f"ACF — {title}")
-    plot_pacf(series.dropna(), lags=lags, ax=axes[1], title=f"PACF — {title}", method="ywm")
+    plot_acf(series.dropna(), lags=lags, ax=axes[0], title=f"ACF - {title}")
+    plot_pacf(series.dropna(), lags=lags, ax=axes[1], title=f"PACF - {title}", method="ywm")
     fig.tight_layout()
     if save_name:
         save_fig(fig, save_name)
